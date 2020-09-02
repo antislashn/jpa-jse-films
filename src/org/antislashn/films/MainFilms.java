@@ -17,15 +17,19 @@ public class MainFilms {
 		FilmDao filmDao = new FilmDao(emf);
 		PersonneDao personneDao = new PersonneDao(emf);
 		
-		Optional<Film> opt1 = filmDao.findById(1L);
-		opt1.ifPresent(f->{
-			f.getActeurs().forEach(System.out::println);
-		});
+		Film film1 = new Film("film1");
+		Film film2 = new Film("film2");
 		
+		Personne a1 = new Personne("M", "One", "Joe");
+		Personne a2 = new Personne("M", "Two", "Joe");
 		
-//		Optional<Personne> opt2 = personneDao.findById(1L);
-//		opt2.ifPresent(System.out::println);
-//		emf.close();
+		film1.addActeur(a1);
+		film1.addActeur(a2);
+		film2.addActeur(a1);
+		film2.addActeur(a2);
+		
+		filmDao.save(film1);
+		filmDao.save(film2);
 	}
 
 }

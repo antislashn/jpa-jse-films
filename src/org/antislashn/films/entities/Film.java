@@ -2,6 +2,7 @@ package org.antislashn.films.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -29,20 +30,31 @@ import lombok.experimental.FieldDefaults;
 @ToString(exclude = "acteurs")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
-
 @Entity
-@Table(name="films")
-public class Film implements Serializable{
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Table(name = "films")
+public class Film implements Serializable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pk_film")
 	Long id;
 	String titre;
-	@Column(name="date_sortie")
+	@Column(name = "date_sortie")
 	LocalDate dateSortie;
 	int duree;
-	@Column(name="prixht")
+	@Column(name = "prixht")
 	double prixHT;
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "film")
-	List<Personne> acteurs;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "film_acteur", 
+		joinColumns = @JoinColumn(name = "fk_film"), 
+		inverseJoinColumns = @JoinColumn(name = "fk_acteur"))
+	List<Personne> acteurs = new ArrayList<>();
+	
+	public Film(String titre) {
+		this.titre = titre;
+	}
+	
+	public void addActeur(Personne acteur) {
+		acteurs.add(acteur);
+	}
 
 }

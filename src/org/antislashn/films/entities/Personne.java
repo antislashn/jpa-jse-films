@@ -46,11 +46,7 @@ public class Personne {
 	String civilite;
 	String nom;
 	String prenom;
-	@ManyToOne()
-	@JoinTable(name="film_acteur",
-	joinColumns=@JoinColumn(name="fk_acteur"),
-	inverseJoinColumns=@JoinColumn(name="fk_film"))
-	Film film;
+
 	
 
 	public Personne(String civilite, String nom, String prenom) {
