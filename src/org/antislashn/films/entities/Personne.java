@@ -48,8 +48,8 @@ public class Personne {
 	String nom;
 	String prenom;
 	
-	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "acteurs")
-	List<Film> films = new ArrayList<Film>();
+//	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "acteurs")
+//	List<Film> films = new ArrayList<Film>();
 
 	
 
@@ -59,9 +59,9 @@ public class Personne {
 		this.prenom = prenom;
 	}
 	
-	public void addFilm(Film film) {
-		films.add(film);
-	}
+//	public void addFilm(Film film) {
+//		films.add(film);
+//	}
 
 	
 	

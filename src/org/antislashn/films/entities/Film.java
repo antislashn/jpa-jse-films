@@ -2,10 +2,9 @@ package org.antislashn.films.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +14,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -28,11 +30,17 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = "acteurs")
+@ToString(exclude = "roles")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 @Entity
 @Table(name = "films")
+@SecondaryTable(name="resumes",pkJoinColumns=@PrimaryKeyJoinColumn(name="fk_film"))
+
+@NamedQuery(name = "Film.findByCategorie",
+				query = "SELECT f FROM Film f WHERE f.categorie = :categorie")
+@NamedQuery(name = "Film.findByCategorieLibelle",
+				query = "SELECT f FROM Film f WHERE f.categorie.libelle = :libelle")
 public class Film implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,19 +52,24 @@ public class Film implements Serializable {
 	int duree;
 	@Column(name = "prixht")
 	double prixHT;
+	@Column(table = "resumes")
+	String resume;
+	@ManyToOne
+	@JoinColumn(name = "fk_categorie")
+	Categorie categorie;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "film_acteur", 
 		joinColumns = @JoinColumn(name = "fk_film"), 
 		inverseJoinColumns = @JoinColumn(name = "fk_acteur"))
-	List<Personne> acteurs = new ArrayList<>();
+	private Map<Role, Personne> roles = new HashMap<Role, Personne>();
 	
 	public Film(String titre) {
 		this.titre = titre;
 	}
 	
-	public void addActeur(Personne acteur) {
-		acteurs.add(acteur);
+	public void addActeur(Personne acteur, Role role) {
+		roles.put(role, acteur);
 	}
 
 }

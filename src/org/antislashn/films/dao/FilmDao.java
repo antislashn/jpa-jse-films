@@ -1,10 +1,14 @@
 package org.antislashn.films.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import org.antislashn.films.entities.Categorie;
 import org.antislashn.films.entities.Film;
 import org.antislashn.films.entities.Personne;
+
 
 public class FilmDao extends AbstractDAO<Film, Long> {
 
@@ -12,19 +16,48 @@ public class FilmDao extends AbstractDAO<Film, Long> {
 		super(emf, Film.class);
 	}
 	
-	public void save(Film film) {
+	public List<Film> findAll(){
 		EntityManager em = getEntityManagerFactory().createEntityManager();
-		
-		em.getTransaction().begin();
-		for(Personne a : film.getActeurs()) {
-			if(a.getId()==null)
-				em.persist(a);
-			else
-				em.merge(a);
-		}
-		em.persist(film);
-		em.getTransaction().commit();
+		String jpql = "SELECT f FROM film";
+		List<Film> films = em.createQuery(jpql, Film.class)
+							.getResultList();
 		em.close();
+		return films;
 	}
+	
+	public List<Film> findByCategorie(Categorie categorie){
+		EntityManager em = getEntityManagerFactory().createEntityManager();
+		List<Film> films = em.createNamedQuery("Film.findByCategorie", Film.class)
+							.setParameter("categorie", categorie)
+							.getResultList();
+		em.close();
+		return films;
+	}
+	
+	public List<Film> findByCategorie(String categorie){
+		EntityManager em = getEntityManagerFactory().createEntityManager();
+		List<Film> films = em.createNamedQuery("Film.findByCategorieLibelle", Film.class)
+							.setParameter("libelle", categorie)
+							.getResultList();
+		em.close();
+		return films;
+	}
+	
+	
+	
+//	public void save(Film film) {
+//		EntityManager em = getEntityManagerFactory().createEntityManager();
+//		
+//		em.getTransaction().begin();
+//		for(Personne a : film.getActeurs()) {
+//			if(a.getId()==null)
+//				em.persist(a);
+//			else
+//				em.merge(a);
+//		}
+//		em.persist(film);
+//		em.getTransaction().commit();
+//		em.close();
+//	}
 
 }
