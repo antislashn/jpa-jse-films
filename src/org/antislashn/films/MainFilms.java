@@ -28,6 +28,12 @@ public class MainFilms {
 		film2.addActeur(a1);
 		film2.addActeur(a2);
 		
+		a1.addFilm(film1);
+		a1.addFilm(film2);
+		
+		a2.addFilm(film1);
+		a2.addFilm(film2);
+		
 		filmDao.save(film1);
 		filmDao.save(film2);
 	}

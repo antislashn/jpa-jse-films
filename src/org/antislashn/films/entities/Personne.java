@@ -1,6 +1,7 @@
 package org.antislashn.films.entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "acteurs")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 @Entity
@@ -46,6 +47,9 @@ public class Personne {
 	String civilite;
 	String nom;
 	String prenom;
+	
+	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "acteurs")
+	List<Film> films = new ArrayList<Film>();
 
 	
 
@@ -53,6 +57,10 @@ public class Personne {
 		this.civilite = civilite;
 		this.nom = nom;
 		this.prenom = prenom;
+	}
+	
+	public void addFilm(Film film) {
+		films.add(film);
 	}
 
 	

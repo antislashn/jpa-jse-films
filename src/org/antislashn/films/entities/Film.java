@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,6 +44,7 @@ public class Film implements Serializable {
 	int duree;
 	@Column(name = "prixht")
 	double prixHT;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "film_acteur", 
 		joinColumns = @JoinColumn(name = "fk_film"), 

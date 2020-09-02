@@ -14,6 +14,7 @@ public class FilmDao extends AbstractDAO<Film, Long> {
 	
 	public void save(Film film) {
 		EntityManager em = getEntityManagerFactory().createEntityManager();
+		
 		em.getTransaction().begin();
 		for(Personne a : film.getActeurs()) {
 			if(a.getId()==null)
