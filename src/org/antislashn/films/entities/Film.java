@@ -57,18 +57,21 @@ public class Film implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "fk_categorie")
 	Categorie categorie;
+	@ManyToOne
+	@JoinColumn(name = "fk_realisateur")
+	Realisateur realisateur;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "film_acteur", 
 		joinColumns = @JoinColumn(name = "fk_film"), 
 		inverseJoinColumns = @JoinColumn(name = "fk_acteur"))
-	private Map<Role, Personne> roles = new HashMap<Role, Personne>();
+	private Map<Role, Acteur> roles = new HashMap<Role, Acteur>();
 	
 	public Film(String titre) {
 		this.titre = titre;
 	}
 	
-	public void addActeur(Personne acteur, Role role) {
+	public void addActeur(Acteur acteur, Role role) {
 		roles.put(role, acteur);
 	}
 

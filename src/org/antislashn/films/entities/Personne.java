@@ -34,12 +34,13 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = "acteurs")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@ToString
 
 @Entity
 @Table(name="personnes")
-
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
 public class Personne {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="pk_personne")
@@ -47,9 +48,11 @@ public class Personne {
 	String civilite;
 	String nom;
 	String prenom;
+	@Column(name = "date_naissance")
+	LocalDate dateNaissance;
+	@Column(name = "date_deces")
+	LocalDate dateDeces;
 	
-//	@ManyToMany(fetch = FetchType.EAGER,mappedBy = "acteurs")
-//	List<Film> films = new ArrayList<Film>();
 
 	
 
