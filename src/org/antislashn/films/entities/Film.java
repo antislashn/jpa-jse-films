@@ -26,7 +26,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "acteurs")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 
@@ -42,10 +42,7 @@ public class Film implements Serializable{
 	int duree;
 	@Column(name="prixht")
 	double prixHT;
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="film_acteur",
-	joinColumns=@JoinColumn(name="fk_film"),
-	inverseJoinColumns=@JoinColumn(name="fk_acteur"))
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "film")
 	List<Personne> acteurs;
 
 }

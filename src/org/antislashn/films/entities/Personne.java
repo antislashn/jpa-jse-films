@@ -15,7 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -43,6 +46,11 @@ public class Personne {
 	String civilite;
 	String nom;
 	String prenom;
+	@ManyToOne()
+	@JoinTable(name="film_acteur",
+	joinColumns=@JoinColumn(name="fk_acteur"),
+	inverseJoinColumns=@JoinColumn(name="fk_film"))
+	Film film;
 	
 
 	public Personne(String civilite, String nom, String prenom) {
