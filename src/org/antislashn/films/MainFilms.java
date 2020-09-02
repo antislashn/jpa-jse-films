@@ -1,5 +1,6 @@
 package org.antislashn.films;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManagerFactory;
@@ -19,7 +20,9 @@ public class MainFilms {
 		
 		Optional<Film> opt1 = filmDao.findById(1L);
 		opt1.ifPresent(f->{
-			f.getActeurs().forEach(System.out::println);
+			System.out.println(f.getTitre());
+			List<Personne> acteurs = filmDao.getActeursByFilm(f);
+			acteurs.forEach(System.out::println);
 		});
 		
 		

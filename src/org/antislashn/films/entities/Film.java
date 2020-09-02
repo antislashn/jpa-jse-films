@@ -42,10 +42,9 @@ public class Film implements Serializable{
 	int duree;
 	@Column(name="prixht")
 	double prixHT;
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany
 	@JoinTable(name="film_acteur",
 	joinColumns=@JoinColumn(name="fk_film"),
 	inverseJoinColumns=@JoinColumn(name="fk_acteur"))
 	List<Personne> acteurs;
-
 }
