@@ -21,6 +21,7 @@ import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @ToString(exclude = "roles")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(of= {"id"})
 
 @Entity
 @Table(name = "films")
@@ -41,6 +43,8 @@ import lombok.experimental.FieldDefaults;
 				query = "SELECT f FROM Film f WHERE f.categorie = :categorie")
 @NamedQuery(name = "Film.findByCategorieLibelle",
 				query = "SELECT f FROM Film f WHERE f.categorie.libelle = :libelle")
+@NamedQuery(name = "Film.findByActeur",
+					query = "SELECT f FROM Film f JOIN f.roles r WHERE :acteur IN (VALUE(r))")
 public class Film implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
